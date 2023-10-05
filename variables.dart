@@ -8,10 +8,16 @@ void main() {
     {2: "Ryam"}
   ];
 
+  try {
+    int result = 10 ~/ 0;
+    print('Result: $result');
+  } catch (e) {
+    print("An error occurred: $e");
+  }
+
   print('Number: $number');
   print('Name: $name');
   print('Smart?: $isSmart');
   print('Color: $colors');
   print('Id with name: $id_name');
 }
-
