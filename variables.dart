@@ -29,9 +29,24 @@ void main() {
 
   //instances of Task class
 
-  Task task1 = Task(1, 'Submit Project', 'use github to pull request', false);
-  Task task2 = Task(2, 'Read a Book', 'Read "Shatter Me"', true);
+  Task task1 = Task(
+    id: 1,
+    title: 'Submit Project',
+    description: 'use github to pull request',
+    isCompleted: false,
+  );
+
+  Task task2 = Task(
+    id: 2,
+    title: 'Read a Book',
+    description: 'Read "Shatter Me"',
+    isCompleted: true,
+  );
+
+  //instance using the default constructor
+  Task task3 = Task();
 
   print('Task 1: ${task1.title}, Completed: ${task1.isCompleted}');
   print('Task 2: ${task2.title}, Completed: ${task2.isCompleted}');
+  print('Task 3 (default task): ${task3.title}, Completed: ${task3.isCompleted}');
 }
