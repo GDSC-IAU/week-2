@@ -1,4 +1,5 @@
 import 'task.dart';
+import 'dart:io';
 
 void main() {
   //declare and initialize variables
@@ -27,7 +28,7 @@ void main() {
     print("An error occurred: $e");
   }
 
-  //instances of Task class
+//instances of Task class
 
   Task task1 = Task(
     id: 1,
@@ -43,10 +44,21 @@ void main() {
     isCompleted: true,
   );
 
-  //instance using the default constructor
+//instance using the default constructor
   Task task3 = Task();
 
   print('Task 1: ${task1.title}, Completed: ${task1.isCompleted}');
   print('Task 2: ${task2.title}, Completed: ${task2.isCompleted}');
-  print('Task 3 (default task): ${task3.title}, Completed: ${task3.isCompleted}');
+
+  print(
+      'Task 3 (default task): ${task3.title}, Completed: ${task3.isCompleted}');
+
+//take input from user
+  stdout.write('Enter your name: ');
+  String? name2 = stdin.readLineSync();
+  print('Hello $name2!');
+//take input from user as int
+  stdout.write('Enter your age: ');
+  int? age = int.tryParse(stdin.readLineSync()!) ?? 0;
+  print('Age: $age');
 }
