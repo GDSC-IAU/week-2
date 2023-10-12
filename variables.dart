@@ -1,4 +1,4 @@
-import 'task.dart';
+//import 'task.dart';
 import 'dart:io';
 
 void main() {
@@ -30,7 +30,7 @@ void main() {
 
 //instances of Task class
 
-  Task task1 = Task(
+/* Task task1 = Task(
     id: 1,
     title: 'Submit Project',
     description: 'use github to pull request',
@@ -51,7 +51,7 @@ void main() {
   print('Task 2: ${task2.title}, Completed: ${task2.isCompleted}');
 
   print(
-      'Task 3 (default task): ${task3.title}, Completed: ${task3.isCompleted}');
+      'Task 3 (default task): ${task3.title}, Completed: ${task3.isCompleted}');*/
 
 //take input from user
   stdout.write('Enter your name: ');
