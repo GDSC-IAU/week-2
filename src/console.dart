@@ -4,8 +4,9 @@ void main() {
   // refer to back commits to see what happend here.
 
   stdout.write('Enter your age: ');
-  // can result in error if user put non integer
-  int? age = int.parse(stdin.readLineSync()!);
-
+  // tryParse when error happens it will return null otherwise the user input
+  int? age = int.tryParse(stdin.readLineSync()!) ?? 0;
+  // ?? tells dart if the left operand is null then use this value 
+  
   print("Your age is: $age");
 }
