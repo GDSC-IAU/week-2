@@ -20,8 +20,7 @@ void main(List<String> args) {
   while (true) {
     print("");
     print('Enter valid option: ');
-    // TODO change -1 to 0
-    int option = int.tryParse(stdin.readLineSync()!) ?? -1;
+    int option = int.tryParse(stdin.readLineSync()!) ?? 0;
 
     if (option == -1) break;
 
@@ -62,8 +61,10 @@ class TaskListApp {
 
   void addTask() {
     print('---------- Create a task ----------');
-    final String taskTitle = askUser("Enter task title: ");
+    String taskTitle = askUser("Enter task title: ");
     final String taskDescription = askUser("Enter task description: ");
+
+    if (taskTitle.isEmpty) taskTitle = "unnamed";
 
     tasks.add(
       Task(title: taskTitle, description: taskDescription),
@@ -111,6 +112,21 @@ class TaskListApp {
   }
 
   void deleteTask() {
+    print('---------- Delete a task ----------');
+
+    try {
+      final int taskIndex = askUser("Enter task index:", true);
+
+      final Task task = tasks[taskIndex - 1];
+
+      tasks.remove(task);
+
+      print(
+        "Task ${task.title} with index $taskIndex has been deleted. Task total: ${tasks.length}",
+      );
+    } catch (e) {
+      print("Enter a valid task index!");
+    }
   }
 
   dynamic askUser(String messsage, [isInteger = false]) {
