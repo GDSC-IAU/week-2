@@ -7,7 +7,7 @@ class Task {
   Task({
     this.id = 0,
     this.title = "Unnamed task",
-    this.description = "",
+    this.description = "no description",
     this.isCompleted = false,
   });
 }
