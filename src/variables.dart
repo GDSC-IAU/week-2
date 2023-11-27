@@ -27,6 +27,6 @@ void main() {
   );
 
   print(
-    'Task 2: ${emptyTask.title}, Completed: ${emptyTask.isCompleted}',
+    'Task 3: ${emptyTask.title}, Completed: ${emptyTask.isCompleted}',
   );
 }
