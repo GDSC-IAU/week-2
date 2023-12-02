@@ -1,8 +1,9 @@
-// TODO: Run task list app
-void main(List<String> args) {
-  print('Hello World');
-}
+void main(List<String> args) 
+{
+  bool running = true;
 
-class TaskListApp {
-  // TODO: Implement Task list app
+  while (running)
+  {
+    
+  }
 }
