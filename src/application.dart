@@ -1,4 +1,5 @@
-import "dart:io";
+import "task.dart";
+import "utils.dart";
 import "task_list.dart";
 
 class Application
@@ -10,23 +11,22 @@ class Application
   void printMainMenu()
   {
     printTaskMenu();
-    print("\n");
-    print("1. Add Task\n");
-    print("2. Edit Task\n");
-    print("3. Delete Task\n");
-    print("4. Exit\n");
+    print("1. Add Task");
+    print("2. Edit Task");
+    print("3. Delete Task");
+    print("4. Exit");
+    print("Please select a service (type a number): ");
     parseServiceType();
   }
 
   void parseServiceType()
   {
-    print("Please select a service (type a number): ");
     int input = takeNumberInput();
     switch (input)
     {
       case 1:
         // Add task
-        list.addTask("example title", "example description");
+        addTask();
         break;
 
       case 2:
@@ -35,6 +35,7 @@ class Application
 
       case 3:
         // Delete Task
+        deleteTask();
         break;
 
       case 4:
@@ -44,9 +45,50 @@ class Application
 
       default:
         // Invalid number; Ask again
+        print ("Please type a valid number: ");
         parseServiceType();
     }
-}
+  }
+
+  void addTask()
+  {
+    print ("Adding Task");
+   
+    print ("New Task Title: ");
+    String title = takeStringInput();
+    print ("New Task Description: ");
+    String description = takeStringInput();
+    
+    list.addTask(title, description);
+    print ("Task successfully added.\n");
+  }
+
+  void deleteTask()
+  {
+    if (list.tasks.length == 0)
+    {
+      print("There are no tasks to delete. Press anything to continue.");
+      takeStringInput();
+      return;
+    }
+    print("\n");
+    printTaskMenu();
+    print("Select a task to delete (type task ID to select task): ");
+    int id = getTaskFromNumberInput(list);
+    print("\n Selected task: ${list.tasks[id].title}");
+    print("Are you sure you want to delete this task? (Y/N)");
+    
+    if (!takeYesOrNoInput()) 
+    {
+      print("Operation cancelled. Press anything to continue.");
+      takeStringInput();
+      return;
+    }
+    
+    list.deleteTask(id);
+    print("Task successfully deleted. Press anything to continue.\n");
+    takeStringInput();
+  }
 
   void printTaskMenu()
   {
@@ -55,23 +97,3 @@ class Application
 }
 
 
-int takeNumberInput()
-{
-  bool validInput = false;
-  int input = -1;
-
-  while (!validInput)
-  {
-    try
-    {
-      input = int.parse(stdin.readLineSync()!);
-      validInput = true;
-    }
-    catch (e)
-    {
-      print ("Please type a valid number: ");
-    }
-  }
-
-  return input;
-}
