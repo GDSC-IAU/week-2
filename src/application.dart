@@ -1,5 +1,5 @@
-import "task.dart";
 import "utils.dart";
+import "dart:io";
 import "task_list.dart";
 
 class Application
@@ -15,13 +15,12 @@ class Application
     print("2. Edit Task");
     print("3. Delete Task");
     print("4. Exit");
-    print("Please select a service (type a number): ");
     parseServiceType();
   }
 
   void parseServiceType()
   {
-    int input = takeNumberInput();
+    int input = takeNumberInput("Please select a service (type a number): ");
     switch (input)
     {
       case 1:
@@ -31,6 +30,7 @@ class Application
 
       case 2:
         // Edit task
+        editTask();
         break;
 
       case 3:
@@ -40,54 +40,112 @@ class Application
 
       case 4:
         // Exit app
-        running = false;
+        if (takeYesOrNoInput("Exit the app? (Y/N): ")) running = false;
         break;
 
       default:
         // Invalid number; Ask again
-        print ("Please type a valid number: ");
+        stdout.write("Please type a valid number: ");
         parseServiceType();
     }
   }
 
   void addTask()
   {
-    print ("Adding Task");
+    print ("\nAdding Task...");
    
-    print ("New Task Title: ");
-    String title = takeStringInput();
-    print ("New Task Description: ");
-    String description = takeStringInput();
+    String title = takeStringInput("New Task Title: ");
+    String description = takeStringInput("New Task Description: ");
     
     list.addTask(title, description);
     print ("Task successfully added.\n");
   }
 
+  void editTask()
+  {
+    if (list.tasks.length == 0)
+    {
+      takeStringInput("There are no tasks to edit. Press enter to continue.");
+      return;
+    }
+
+    print("");
+    int id = getTaskFromNumberInput(list, "Select task to edit: ");
+    
+    print(list.tasks[id].toString());
+    print("What would you like to edit about this task?");
+    print("1. Task Title");
+    print("2. Task Description");
+    print("3. Task Completion Status");
+    print("4. Cancel");
+
+    parseEditType(id);
+  }
+
+  void parseEditType(int taskID)
+  {
+    int serviceInput = takeNumberInput("");
+    switch (serviceInput)
+    {
+      case 1:
+        // Edit task title
+        print("Current task title: ${list.tasks[taskID].title}");
+        String newTitle = takeStringInput("New task title: ");
+        list.editTaskTitle(taskID, newTitle);
+        takeStringInput("Task title changeed successfully. Press enter to continue. ");
+        break;
+
+      case 2:
+        // Edit task description
+        print("Current task description: ${list.tasks[taskID].description}");
+        String newDescription = takeStringInput("New task description: ");
+        list.editTaskTitle(taskID, newDescription);
+        takeStringInput("Task description changeed successfully. Press enter to continue. ");
+        break;
+
+      case 3:
+        // Edit task completion status
+        break;
+
+      case 4:
+        // Cancel operation
+        if (takeYesOrNoInput("Cancel this operation? (Y/N): ")) 
+        {
+          takeStringInput("Operation cancelled. Press enter to continue.");
+          break;
+        }
+        stdout.write("Select what you would like to edit about this task: ");
+        parseEditType(taskID);
+        break;
+
+      default:
+        // Invalid input; Ask again
+        stdout.write("Please type a valid number: ");
+        parseEditType(taskID);
+    }
+  }
+
+
   void deleteTask()
   {
     if (list.tasks.length == 0)
     {
-      print("There are no tasks to delete. Press anything to continue.");
-      takeStringInput();
+      takeStringInput("There are no tasks to delete. Press enter to continue.");
       return;
     }
     print("\n");
     printTaskMenu();
-    print("Select a task to delete (type task ID to select task): ");
-    int id = getTaskFromNumberInput(list);
-    print("\n Selected task: ${list.tasks[id].title}");
-    print("Are you sure you want to delete this task? (Y/N)");
+    int id = getTaskFromNumberInput(list, "Select a task to delete (type task ID to select task): ");
+    print("\nSelected task: ${list.tasks[id].title}");
     
-    if (!takeYesOrNoInput()) 
+    if (!takeYesOrNoInput("Are you sure you want to delete this task? (Y/N): ")) 
     {
-      print("Operation cancelled. Press anything to continue.");
-      takeStringInput();
+      takeStringInput("\nOperation cancelled. Press enter to continue. ");
       return;
     }
     
     list.deleteTask(id);
-    print("Task successfully deleted. Press anything to continue.\n");
-    takeStringInput();
+    takeStringInput("\nTask successfully deleted. Press enter to continue. ");
   }
 
   void printTaskMenu()

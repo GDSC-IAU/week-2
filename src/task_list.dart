@@ -11,17 +11,17 @@ class TaskList
 
   void editTaskTitle(int id, String newTitle)
   {
-
+    tasks[id].title = newTitle;
   }
 
   void editTaskDescription(int id, String newDescription)
   {
-
+    tasks[id].description = newDescription;
   }
 
   void editTaskStatus(int id)
   {
-
+    
   }
 
   void deleteTask(int id)
@@ -39,12 +39,7 @@ class TaskList
     String result = "";
     for (Task task in tasks)
     {
-      result += "============================\n";
-      result += "Task ID: ${task.id+1}\n";
-      result += "Task Title: ${task.title}\n";
-      result += "Task Description: ${task.description}\n";
-      result += "Completed: ${task.isComplete ? "Yes" : "No"}\n";
-      result += "============================\n";
+      result += task.toString();
     }
     return result;
   }
