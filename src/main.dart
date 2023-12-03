@@ -1,9 +1,11 @@
+import 'application.dart';
 void main(List<String> args) 
 {
-  bool running = true;
-
-  while (running)
+  Application app = Application();
+  
+  while (app.running)
   {
-    
+    app.printMainMenu();
   }
+
 }
