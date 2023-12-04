@@ -5,11 +5,11 @@ void main(List<String> args) {
   print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
   print('Task List App');
 
-  int answer;
+  var answer;
   String? answer1;
 
   do {
-     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
+    print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
     print('What would you like to do?');
     print('1. Add task');
     print('2. Edit task');
@@ -41,9 +41,9 @@ void main(List<String> args) {
           );
 
           tasks.add(task);
-          
 
-          print('Do you want to add another task? Please answer with yes or no:');
+          print(
+              'Do you want to add another task? Please answer with yes or no:');
           print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
           answer1 = stdin.readLineSync()?.toLowerCase();
         } while (answer1 == 'yes' || answer1 == 'y');
@@ -92,7 +92,7 @@ void main(List<String> args) {
         break;
 
       case 4:
-        print('View tasks');
+        print('Here is your tasks:');
         for (var task in tasks) {
           print(task);
         }
@@ -133,7 +133,8 @@ class TaskListApp {
 
   @override
   String toString() {
-    return 'TaskListApp{id: $id, taskname: $taskname, description: $description, isCompleted: $isCompleted}';
+    String finished = isCompleted ? 'Yes' : 'No';
+    return 'Task number $id || taskname: $taskname || description: $description || Finished: $finished';
   }
 }
 
