@@ -20,7 +20,7 @@ class Application
 
   void parseServiceType()
   {
-    int input = takeNumberInput("Please select a service (type a number): ");
+    int input = getNumberInput("Please select a service (type a number): ");
     switch (input)
     {
       case 1:
@@ -40,12 +40,18 @@ class Application
 
       case 4:
         // Exit app
-        if (takeYesOrNoInput("Exit the app? (Y/N): ")) running = false;
+        if (getYesOrNoInput("Exit the app? (Y/N): ")) 
+        {
+          running = false;
+          break;
+        }
+
+        print("");
         break;
 
       default:
         // Invalid number; Ask again
-        stdout.write("Please type a valid number: ");
+        print("\nThat service does not exist. Please type a number between 1 and 4.");
         parseServiceType();
     }
   }
@@ -54,8 +60,8 @@ class Application
   {
     print ("\nAdding Task...");
    
-    String title = takeStringInput("New Task Title: ");
-    String description = takeStringInput("New Task Description: ");
+    String title = getStringInput("New Task Title: ");
+    String description = getStringInput("New Task Description: ");
     
     list.addTask(title, description);
     print ("Task successfully added.\n");
@@ -65,7 +71,7 @@ class Application
   {
     if (list.tasks.length == 0)
     {
-      takeStringInput("There are no tasks to edit. Press enter to continue.");
+      getStringInput("\nThere are no tasks to edit, try adding some. Press enter to continue.");
       return;
     }
 
@@ -84,34 +90,44 @@ class Application
 
   void parseEditType(int taskID)
   {
-    int serviceInput = takeNumberInput("");
+    int serviceInput = getNumberInput("");
     switch (serviceInput)
     {
       case 1:
         // Edit task title
         print("Current task title: ${list.tasks[taskID].title}");
-        String newTitle = takeStringInput("New task title: ");
-        list.editTaskTitle(taskID, newTitle);
-        takeStringInput("Task title changeed successfully. Press enter to continue. ");
+        String newTitle = getStringInput("New task title: ");
+        list.tasks[taskID].editTaskTitle(newTitle);
+        getStringInput("Task title changeed successfully. Press enter to continue.");
         break;
 
       case 2:
         // Edit task description
         print("Current task description: ${list.tasks[taskID].description}");
-        String newDescription = takeStringInput("New task description: ");
-        list.editTaskTitle(taskID, newDescription);
-        takeStringInput("Task description changeed successfully. Press enter to continue. ");
+        String newDescription = getStringInput("New task description: ");
+        list.tasks[taskID].editTaskDescription(newDescription);
+        getStringInput("Task description changeed successfully. Press enter to continue. ");
         break;
 
       case 3:
         // Edit task completion status
+        print ("Task status: ${(list.tasks[taskID].isComplete) ? "Complete" : "Incomplete"}");
+        if (getYesOrNoInput("Mark this task as ${(!list.tasks[taskID].isComplete) ? "Complete" : "Incomplete"}? (Y/N): "))
+        {
+          list.tasks[taskID].editTaskStatus();
+          getStringInput("Task: ${list.tasks[taskID].title} marked as ${(list.tasks[taskID].isComplete) ? "Complete" : "Incomplete"}. Press enter to continue.");
+          break;
+        }
+        stdout.write("Select what you would like to edit about this task: ");
+        parseEditType(taskID);
         break;
 
       case 4:
         // Cancel operation
-        if (takeYesOrNoInput("Cancel this operation? (Y/N): ")) 
+        if (getYesOrNoInput("Cancel this operation? (Y/N): ")) 
         {
-          takeStringInput("Operation cancelled. Press enter to continue.");
+          getStringInput("Operation cancelled. Press enter to continue.");
+          print("");
           break;
         }
         stdout.write("Select what you would like to edit about this task: ");
@@ -120,7 +136,7 @@ class Application
 
       default:
         // Invalid input; Ask again
-        stdout.write("Please type a valid number: ");
+        stdout.write("\nPlease type a number between 1 and 4: ");
         parseEditType(taskID);
     }
   }
@@ -130,7 +146,7 @@ class Application
   {
     if (list.tasks.length == 0)
     {
-      takeStringInput("There are no tasks to delete. Press enter to continue.");
+      getStringInput("\nThere are no tasks to delete, try adding some. Press enter to continue.");
       return;
     }
     print("\n");
@@ -138,14 +154,14 @@ class Application
     int id = getTaskFromNumberInput(list, "Select a task to delete (type task ID to select task): ");
     print("\nSelected task: ${list.tasks[id].title}");
     
-    if (!takeYesOrNoInput("Are you sure you want to delete this task? (Y/N): ")) 
+    if (!getYesOrNoInput("Are you sure you want to delete this task? (Y/N): ")) 
     {
-      takeStringInput("\nOperation cancelled. Press enter to continue. ");
+      getStringInput("Operation cancelled. Press enter to continue. ");
       return;
     }
     
     list.deleteTask(id);
-    takeStringInput("\nTask successfully deleted. Press enter to continue. ");
+    getStringInput("Task successfully deleted. Press enter to continue. ");
   }
 
   void printTaskMenu()

@@ -6,22 +6,7 @@ class TaskList
 
   void addTask(String p_title, String p_description)
   {
-    tasks.add(Task(id : tasks.length,title: p_title, description: p_description));
-  }
-
-  void editTaskTitle(int id, String newTitle)
-  {
-    tasks[id].title = newTitle;
-  }
-
-  void editTaskDescription(int id, String newDescription)
-  {
-    tasks[id].description = newDescription;
-  }
-
-  void editTaskStatus(int id)
-  {
-    
+    tasks.add(Task(id : tasks.length,title: p_title, description: p_description)); // Task ID corresponds to its index in the list
   }
 
   void deleteTask(int id)
@@ -29,7 +14,7 @@ class TaskList
     tasks.removeAt(id);
     for (int i = id; i < tasks.length; i++)
     {
-      tasks[i].id--;
+      tasks[i].id--; // This is to make sure each ID in the task list corresponds to its index
     }
   }
 
