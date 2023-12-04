@@ -2,13 +2,14 @@ import 'dart:io';
 
 void main(List<String> args) {
   List<TaskListApp> tasks = [];
-
+  print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
   print('Task List App');
 
   int answer;
   String? answer1;
 
   do {
+     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
     print('What would you like to do?');
     print('1. Add task');
     print('2. Edit task');
@@ -16,11 +17,11 @@ void main(List<String> args) {
     print('4. View tasks');
     print('5. Exit');
     answer = int.parse(stdin.readLineSync()!);
+    print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
 
     switch (answer) {
       case 1:
         do {
-
           print('What would you like your task name to be?');
           String? taskname = stdin.readLineSync();
 
@@ -28,8 +29,9 @@ void main(List<String> args) {
           String? description = stdin.readLineSync();
 
           print('Is you task completed:');
-          bool isCompleted = stdin.readLineSync()?.toLowerCase() == 'y'
-          || stdin.readLineSync()?.toLowerCase() == 'yes';
+          bool isCompleted = stdin.readLineSync()?.toLowerCase() == 'y' ||
+              stdin.readLineSync()?.toLowerCase() == 'yes';
+          print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
 
           TaskListApp task = TaskListApp.withDetails(
             id: tasks.length + 1,
@@ -39,11 +41,12 @@ void main(List<String> args) {
           );
 
           tasks.add(task);
+          
 
           print('Do you want to add another task? Please answer with yes or no:');
+          print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
           answer1 = stdin.readLineSync()?.toLowerCase();
-          
-        } while (answer1 == 'yes'|| answer1 == 'y');
+        } while (answer1 == 'yes' || answer1 == 'y');
         break;
 
       case 2:
@@ -51,7 +54,8 @@ void main(List<String> args) {
         print('Enter the task ID you want to edit:');
         int taskId = int.parse(stdin.readLineSync()!);
 
-        TaskListApp? taskToEdit = tasks.firstWhereOrNull((task) => task.id == taskId);
+        TaskListApp? taskToEdit =
+            tasks.firstWhereOrNull((task) => task.id == taskId);
 
         if (taskToEdit != null) {
           print('What would you like your new task name to be?');
@@ -61,13 +65,14 @@ void main(List<String> args) {
           taskToEdit.description = stdin.readLineSync()!;
 
           print('Is you task completed:');
-          taskToEdit.isCompleted = stdin.readLineSync()?.toLowerCase() == 'y'
-          || stdin.readLineSync()?.toLowerCase() == 'yes';
+          taskToEdit.isCompleted = stdin.readLineSync()?.toLowerCase() == 'y' ||
+              stdin.readLineSync()?.toLowerCase() == 'yes';
 
           print('Task edited successfully!!');
         } else {
           print('Task not found with ID $taskId :(');
         }
+        print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
         break;
 
       case 3:
@@ -83,6 +88,7 @@ void main(List<String> args) {
         } else {
           print('Task not found with ID $taskIdToDelete :(');
         }
+        print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
         break;
 
       case 4:
@@ -90,14 +96,17 @@ void main(List<String> args) {
         for (var task in tasks) {
           print(task);
         }
+        print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
         break;
 
       case 5:
         print('Exit');
+        print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
         break;
 
       default:
         print('Invalid input');
+        print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
         break;
     }
   } while (answer != 5);
@@ -110,11 +119,9 @@ class TaskListApp {
   bool isCompleted;
 
   // Default constructor
-  TaskListApp(): this.withDetails(
-    id: 0, 
-    taskname: '',
-    description: '',
-    isCompleted: false);
+  TaskListApp()
+      : this.withDetails(
+            id: 0, taskname: '', description: '', isCompleted: false);
 
   // Constructor with named parameters
   TaskListApp.withDetails({
