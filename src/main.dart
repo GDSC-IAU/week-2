@@ -1,8 +1,141 @@
-// TODO: Run task list app
+import 'dart:io';
+
 void main(List<String> args) {
-  print('Hello World');
+  List<TaskListApp> tasks = [];
+
+  print('Task List App');
+
+  int answer;
+  String? answer1;
+
+  do {
+    print('What would you like to do?');
+    print('1. Add task');
+    print('2. Edit task');
+    print('3. Delete task');
+    print('4. View tasks');
+    print('5. Exit');
+    answer = int.parse(stdin.readLineSync()!);
+
+    switch (answer) {
+      case 1:
+        do {
+
+          print('What would you like your task name to be?');
+          String? taskname = stdin.readLineSync();
+
+          print('Enter your task description:');
+          String? description = stdin.readLineSync();
+
+          print('Is you task completed:');
+          bool isCompleted = stdin.readLineSync()?.toLowerCase() == 'y'
+          || stdin.readLineSync()?.toLowerCase() == 'yes';
+
+          TaskListApp task = TaskListApp.withDetails(
+            id: tasks.length + 1,
+            taskname: taskname!,
+            description: description!,
+            isCompleted: isCompleted,
+          );
+
+          tasks.add(task);
+
+          print('Do you want to add another task? Please answer with yes or no:');
+          answer1 = stdin.readLineSync()?.toLowerCase();
+          
+        } while (answer1 == 'yes'|| answer1 == 'y');
+        break;
+
+      case 2:
+        print('Edit task');
+        print('Enter the task ID you want to edit:');
+        int taskId = int.parse(stdin.readLineSync()!);
+
+        TaskListApp? taskToEdit = tasks.firstWhereOrNull((task) => task.id == taskId);
+
+        if (taskToEdit != null) {
+          print('What would you like your new task name to be?');
+          taskToEdit.taskname = stdin.readLineSync()!;
+
+          print('Enter the new task description:');
+          taskToEdit.description = stdin.readLineSync()!;
+
+          print('Is you task completed:');
+          taskToEdit.isCompleted = stdin.readLineSync()?.toLowerCase() == 'y'
+          || stdin.readLineSync()?.toLowerCase() == 'yes';
+
+          print('Task edited successfully!!');
+        } else {
+          print('Task not found with ID $taskId :(');
+        }
+        break;
+
+      case 3:
+        print('Delete task');
+        print('Enter the task ID you want to delete:');
+        int taskIdToDelete = int.parse(stdin.readLineSync()!);
+
+        int initialLength = tasks.length;
+        tasks.removeWhere((task) => task.id == taskIdToDelete);
+
+        if (tasks.length < initialLength) {
+          print('Task deleted successfully!!');
+        } else {
+          print('Task not found with ID $taskIdToDelete :(');
+        }
+        break;
+
+      case 4:
+        print('View tasks');
+        for (var task in tasks) {
+          print(task);
+        }
+        break;
+
+      case 5:
+        print('Exit');
+        break;
+
+      default:
+        print('Invalid input');
+        break;
+    }
+  } while (answer != 5);
 }
 
 class TaskListApp {
-  // TODO: Implement Task list app
+  int id;
+  String taskname;
+  String description;
+  bool isCompleted;
+
+  // Default constructor
+  TaskListApp(): this.withDetails(
+    id: 0, 
+    taskname: '',
+    description: '',
+    isCompleted: false);
+
+  // Constructor with named parameters
+  TaskListApp.withDetails({
+    required this.id,
+    required this.taskname,
+    required this.description,
+    required this.isCompleted,
+  });
+
+  @override
+  String toString() {
+    return 'TaskListApp{id: $id, taskname: $taskname, description: $description, isCompleted: $isCompleted}';
+  }
+}
+
+extension IterableExtensions<T> on Iterable<T> {
+  T? firstWhereOrNull(bool Function(T) test) {
+    try {
+      return firstWhere(test);
+    } catch (e) {
+      return null;
+    }
+  }
 }
