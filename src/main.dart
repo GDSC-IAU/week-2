@@ -12,5 +12,5 @@ void main(List<String> args)
   }
 
   // Exit
-  print ("\nThank you for using our service. Exitting now.\n");
+  print ("Thank you for using our service. Exitting now.\n");
 }
