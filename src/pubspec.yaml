@@ -1,0 +1,21 @@
+name: my_package
+version: 1.0.0
+description: A Flutter package for doing something awesome.
+
+homepage: https://example.com/my_package
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  dolumns: ^2.0.1
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
