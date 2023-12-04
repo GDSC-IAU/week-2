@@ -16,7 +16,13 @@ void main(List<String> args) {
     print('3. Delete task');
     print('4. View tasks');
     print('5. Exit');
+    int? answer;
+
+    try {
     answer = int.parse(stdin.readLineSync()!);
+    } catch (e) {
+    print('Invalid input. Please enter a number.');
+    }
     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
 
     switch (answer) {
