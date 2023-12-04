@@ -134,7 +134,9 @@ class TaskListApp {
   @override
   String toString() {
     String finished = isCompleted ? 'Yes' : 'No';
-    return 'Task number $id || taskname: $taskname || description: $description || Finished: $finished';
+    print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
+    return 'Task number $id \ntaskname: $taskname \ndescription: $description \nFinished: $finished';
+
   }
 }
 
