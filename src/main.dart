@@ -62,12 +62,6 @@ void taskMenu(List<Task> tasks, int taskID) {
       continue;
     }
 
-    // Invalid Choice check
-    if (choice < 1 || choice > 4) {
-      printError("Invalid choice");
-      continue;
-    }
-
     switch (choice) {
       case 1:
         // Toggle Task Status

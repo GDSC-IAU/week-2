@@ -1,6 +1,6 @@
 class Task {
   String title;
-  String description;
+  String description = '';
   bool isCompleted = false;
 
   Task({required this.title, this.description = ''});
