@@ -1,6 +1,6 @@
-// TODO: Run task list app
 import 'dart:io';
 import 'tasklist.dart';
+import 'task.dart';
 
 TaskList tasks = TaskList();
 void main(List<String> args) {
@@ -27,9 +27,9 @@ void main(List<String> args) {
       case 2:
         viewTasks(tasks);
         break;
-      // case 3:
-      //   updatetask(tasks);
-      //   break;
+      case 3:
+        updateTask(tasks);
+        break;
       case 4:
         print("think for using the app");
         break;
@@ -56,17 +56,19 @@ void addTask(TaskList tasks) {
   try {
     stdout.write("Enter task title: ");
     String? title = stdin.readLineSync();
-    if (title == null || title.trim() == "") {
+    if (title == null || title.trim().isEmpty) {
       print("Title cannot be empty");
       return;
     }
 
     stdout.write("Enter task description: ");
     String? description = stdin.readLineSync();
-    if (description == null || description.trim() == "") {
+    if (description == null || description.trim().isEmpty) {
       print("Description cannot be empty");
       return;
     }
+
+    tasks.addTask(title, description, false);
 
     print("Task added successfully!");
   } catch (e) {
@@ -75,27 +77,52 @@ void addTask(TaskList tasks) {
 }
 
 void viewTasks(TaskList tasks) {
-  print(tasks.toString());
+  List<Task> taskList = tasks.getAllTasks();
+
+  if (taskList.isEmpty) {
+    print("No tasks available");
+    return;
+  }
+
+  print("========================================");
+  print("TASK LIST");
+  print("========================================");
+
+  for (Task task in taskList) {
+    print("Task ID: ${task.id}");
+    print("Title: ${task.title}");
+    print("Description: ${task.description}");
+    print("Status: ${task.isCompleted ? "Completed" : "Incomplete"}");
+  }
 }
 
-// void updateTask(TaskList tasks) {
-//   try {
-//     stdout.write("Enter task ID: ");
-//     String? taskIdInput = stdin.readLineSync();
+void updateTask(TaskList tasks) {
+  try {
+    stdout.write("Enter task ID: ");
+    String? taskIdInput = stdin.readLineSync();
 
-//     if (taskIdInput == null || taskIdInput.trim() == "") {
-//       print("Task ID cannot be empty");
-//       return;
-//     }
+    if (taskIdInput == null || taskIdInput.trim().isEmpty) {
+      print("Task ID cannot be empty");
+      return;
+    }
 
-//     int taskId = int.parse(taskIdInput);
+    int taskId = int.parse(taskIdInput);
 
-//     print("Task updated successfully!");
-//   } catch (e) {
-//     print("An error occurred during the update");
-//   }
+    Task? taskToUpdate = tasks.getTaskById(taskId);
+
+    if (taskToUpdate == null) {
+      print("Task not found");
+      return;
+    }
+
+    taskToUpdate.updateStatus(true);
+
+    print("Task updated successfully!");
+  } catch (e) {
+    print("An error occurred during the update");
+  }
+}
+
+// class TaskListApp {
+//   // TODO: Implement Task list app
 // }
-
-class TaskListApp {
-  // TODO: Implement Task list app
-}

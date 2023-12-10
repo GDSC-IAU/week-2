@@ -2,12 +2,17 @@ class Task {
   int id;
   String title;
   String description;
-  bool iscompleted;
+  bool isCompleted;
 
   Task({
     this.id = -1,
     required this.title,
     required this.description,
-    this.iscompleted = false,
+    this.isCompleted = false,
   });
+
+  void updateStatus(bool newStatus) {
+    isCompleted = newStatus;
+    return;
+  }
 }
