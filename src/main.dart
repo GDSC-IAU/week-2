@@ -1,12 +1,54 @@
 import 'dart:io';
 import 'TaskListApp.dart';
+
+void addTask(List<TaskListApp> tasks) {
+
+    print('What would you like your task name to be?');
+    String? taskname;
+
+    //to check if it's empty also asks again
+    do {
+      taskname = stdin.readLineSync();
+      if (taskname!.isEmpty) {
+        print("Taskname can't be empty. Please enter a Task name:");
+      }
+    } while (taskname.isEmpty);
+
+    print('Enter your task description:');
+    String? description;
+
+
+    //to check if it's empty also asks again
+    do {
+      description = stdin.readLineSync();
+      if (description!.isEmpty) {
+        print("Description cannot be empty. Please enter a description:");
+      }
+    } while (description.isEmpty);
+
+    print('Is your task completed:');
+    String? input = stdin.readLineSync()?.trim().toLowerCase();
+    bool isCompleted = input == 'y' || input == 'yes';
+    print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
+
+    TaskListApp task = TaskListApp.withDetails(
+      id: tasks.length + 1,
+      taskname: taskname,
+      description: description,
+      isCompleted: isCompleted,
+    );
+
+    tasks.add(task);
+}
+
+
 void main(List<String> args) {
   List<TaskListApp> tasks = [];
   print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
   print('Task List App');
 
   var answer;
-  String? answer1;
+
 
   do {
     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
@@ -16,48 +58,27 @@ void main(List<String> args) {
     print('3. Delete task');
     print('4. View tasks');
     print('5. Exit');
-    int? answer;
 
     try {
-    answer = int.parse(stdin.readLineSync()!);
+      answer = int.parse(stdin.readLineSync()!);
     } catch (e) {
-    print('Invalid input. Please enter a number.');
+      print('Invalid input. Please enter a number.');
     }
     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
 
     switch (answer) {
       case 1:
-        do {
-          print('What would you like your task name to be?');
-          String? taskname = stdin.readLineSync();
 
-          print('Enter your task description:');
-          String? description = stdin.readLineSync();
+      String? answer1;
 
-          if(description.isEmpty)
-          {
-            print("description cannot be empty");
-          }
+      do{
 
-          print('Is you task completed:');
-          bool isCompleted = stdin.readLineSync()?.toLowerCase() == 'y' ||
-              stdin.readLineSync()?.toLowerCase() == 'yes';
-          print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
-
-          TaskListApp task = TaskListApp.withDetails(
-            id: tasks.length + 1,
-            taskname: taskname!,
-            description: description!,
-            isCompleted: isCompleted,
-          );
-
-          tasks.add(task);
-
-          print(
-              'Do you want to add another task? Please answer with yes or no:');
-          print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
+        addTask(tasks);
+         print('Do you want to add another task? Please answer with yes or no:');
+         print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
           answer1 = stdin.readLineSync()?.toLowerCase();
-        } while (answer1 == 'yes' || answer1 == 'y');
+      } while (answer1 == 'yes' || answer1 == 'y');
+
         break;
 
       case 2:
@@ -69,6 +90,7 @@ void main(List<String> args) {
             tasks.firstWhereOrNull((task) => task.id == taskId);
 
         if (taskToEdit != null) {
+
           print('What would you like your new task name to be?');
           taskToEdit.taskname = stdin.readLineSync()!;
 
@@ -76,8 +98,8 @@ void main(List<String> args) {
           taskToEdit.description = stdin.readLineSync()!;
 
           print('Is you task completed:');
-          taskToEdit.isCompleted = stdin.readLineSync()?.toLowerCase() == 'y' ||
-              stdin.readLineSync()?.toLowerCase() == 'yes';
+          String? input = stdin.readLineSync()?.trim().toLowerCase();
+          bool isCompleted = input == 'y' || input == 'yes';
 
           print('Task edited successfully!!');
         } else {
@@ -113,6 +135,7 @@ void main(List<String> args) {
       case 5:
         print('Exit');
         print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
+
         break;
 
       default:
@@ -122,4 +145,3 @@ void main(List<String> args) {
     }
   } while (answer != 5);
 }
-

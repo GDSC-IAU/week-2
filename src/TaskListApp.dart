@@ -21,7 +21,7 @@ class TaskListApp {
   String toString() {
     String finished = isCompleted ? 'Yes' : 'No';
     print("♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡♡");
-    return 'Task number $id \ntaskname: $taskname \ndescription: $description \nFinished: $finished';
+    return 'Task ID: $id \ntaskname: $taskname \ndescription: $description \nFinished: $finished';
 
   }
 }
