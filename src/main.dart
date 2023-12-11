@@ -34,6 +34,11 @@ void main(List<String> args) {
           print('Enter your task description:');
           String? description = stdin.readLineSync();
 
+          if(description.isEmpty)
+          {
+            print("description cannot be empty");
+          }
+
           print('Is you task completed:');
           bool isCompleted = stdin.readLineSync()?.toLowerCase() == 'y' ||
               stdin.readLineSync()?.toLowerCase() == 'yes';
