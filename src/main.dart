@@ -4,15 +4,15 @@ import 'TaskListApp.dart';
 void addTask(List<TaskListApp> tasks) {
 
     print('What would you like your task name to be?');
-    String? taskname;
+    String? task_name;
 
     //to check if it's empty also asks again
     do {
-      taskname = stdin.readLineSync();
-      if (taskname!.isEmpty) {
-        print("Taskname can't be empty. Please enter a Task name:");
+      task_name = stdin.readLineSync();
+      if (task_name!.isEmpty) {
+        print("Task_name can't be empty. Please enter a Task name:");
       }
-    } while (taskname.isEmpty);
+    } while (task_name.isEmpty);
 
     print('Enter your task description:');
     String? description;
@@ -33,7 +33,7 @@ void addTask(List<TaskListApp> tasks) {
 
     TaskListApp task = TaskListApp.withDetails(
       id: tasks.length + 1,
-      taskname: taskname,
+      task_name: task_name,
       description: description,
       isCompleted: isCompleted,
     );
@@ -92,7 +92,7 @@ void main(List<String> args) {
         if (taskToEdit != null) {
 
           print('What would you like your new task name to be?');
-          taskToEdit.taskname = stdin.readLineSync()!;
+          taskToEdit.task_name = stdin.readLineSync()!;
 
           print('Enter the new task description:');
           taskToEdit.description = stdin.readLineSync()!;
