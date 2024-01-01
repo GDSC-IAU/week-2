@@ -1,0 +1,182 @@
+import 'dart:io';
+
+class Task {
+  String description;
+  bool isCompleted;
+
+  Task(this.description, this.isCompleted);
+}
+
+class TaskListApp {
+  List<Task> tasks = [];
+  final String storageFilePath = 'tasks.txt';
+
+  TaskListApp() {
+    loadTasks();
+  }
+
+  void showMenu() {
+    print('Task List App Menu:');
+    print('1. Add Task');
+    print('2. Edit Task');
+    print('3. Delete Task');
+    print('4. Mark Task as Completed');
+    print('5. View Tasks');
+    print('0. Exit');
+  }
+
+  void addTask() {
+    stdout.write('Enter task description:');
+    String description = stdin.readLineSync() ?? '';
+    tasks.add(Task(description, false));
+    saveTasks();
+    print('Task added successfully!');
+  }
+
+  void editTask() {
+    if (tasks.isEmpty) {
+      print('No tasks to edit.');
+      return;
+    }
+
+    showTasks();
+    stdout.write('Enter the task number to edit:');
+    int taskNumber = int.parse(stdin.readLineSync() ?? '-1');
+
+    if (taskNumber >= 1 && taskNumber <= tasks.length) {
+      stdout.write('Enter new task description:');
+      String newDescription = stdin.readLineSync() ?? '';
+      tasks[taskNumber - 1].description = newDescription;
+      saveTasks();
+      print('Task edited successfully!');
+    } else {
+      print('Invalid task number.');
+    }
+  }
+
+  void deleteTask() {
+    if (tasks.isEmpty) {
+      print('No tasks to delete.');
+      return;
+    }
+
+    showTasks();
+    stdout.write('Enter the task number to delete:');
+    int taskNumber = int.parse(stdin.readLineSync() ?? '-1');
+
+    if (taskNumber >= 1 && taskNumber <= tasks.length) {
+      tasks.removeAt(taskNumber - 1);
+      saveTasks();
+      print('Task deleted successfully!');
+    } else {
+      print('Invalid task number.');
+    }
+  }
+
+  void markTaskAsCompleted() {
+    if (tasks.isEmpty) {
+      print('No tasks to mark as completed.');
+      return;
+    }
+
+    showTasks();
+    stdout.write('Enter the task number to mark as completed:');
+    int taskNumber = int.parse(stdin.readLineSync() ?? '-1');
+
+    if (taskNumber >= 1 && taskNumber <= tasks.length) {
+      tasks[taskNumber - 1].isCompleted = true;
+      saveTasks();
+      print('Task marked as completed!');
+    } else {
+      print('Invalid task number.');
+    }
+  }
+
+  void showTasks() {
+    if (tasks.isEmpty) {
+      print('No tasks available.');
+      return;
+    }
+
+    print('Task List:');
+    for (int i = 0; i < tasks.length; i++) {
+      var taskStatus = tasks[i].isCompleted ? '[Completed]' : '[Pending]';
+      print('${i + 1}. $taskStatus ${tasks[i].description}');
+    }
+  }
+
+  void saveTasks() {
+    try {
+      var file = File(storageFilePath);
+      var sink = file.openWrite();
+
+      for (var task in tasks) {
+        sink.write('${task.description},${task.isCompleted}\n');
+      }
+
+      sink.close();
+    } catch (e) {
+      print('Error saving tasks: $e');
+    }
+  }
+
+  void loadTasks() {
+    try {
+      var file = File(storageFilePath);
+
+      if (!file.existsSync()) {
+        return;
+      }
+
+      var lines = file.readAsLinesSync();
+
+      for (var line in lines) {
+        var parts = line.split(',');
+        if (parts.length == 2) {
+          var description = parts[0];
+          var isCompleted = parts[1] == 'true';
+          tasks.add(Task(description, isCompleted));
+        }
+      }
+    } catch (e) {
+      print('Error loading tasks: $e');
+    }
+  }
+
+  void run() {
+    while (true) {
+      showMenu();
+      stdout.write('Enter your choice:');
+      var choice = int.tryParse(stdin.readLineSync() ?? '-1');
+
+      switch (choice) {
+        case 1:
+          addTask();
+          break;
+        case 2:
+          editTask();
+          break;
+        case 3:
+          deleteTask();
+          break;
+        case 4:
+          markTaskAsCompleted();
+          break;
+        case 5:
+          showTasks();
+          break;
+        case 0:
+          saveTasks();
+          print('Exiting Task List App.');
+          exit(0);
+          break;
+        default:
+          print('Invalid choice. Please try again.');
+      }
+    }
+  }
+}
+
+void main() {
+  TaskListApp().run();
+}
