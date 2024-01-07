@@ -37,21 +37,10 @@ void editTask(int no) {
 }
 
 void deleteTask(int no) {
-  bool found = false;
-  for (int i = 0; i < TaskListApp.tasks.length; i++) {
-    if (TaskListApp.tasks.elementAt(no).id == no) {
-      found = true;
-      break;
-    }
-  }
-  if (found) {
-    for (int i = no; i < TaskListApp.tasks.length; i++) {
-      TaskListApp.tasks.elementAt(i + 1).id = i - 1;
-    }
-    TaskListApp.tasks.remove(no);
-    TaskListApp.count--;
-  } else {
-    print('Task dose not exist!\n');
+  TaskListApp.tasks.remove(no);
+  TaskListApp.count--;
+  for (int i = no; i < TaskListApp.tasks.length; i++) {
+    TaskListApp.tasks.elementAt(i + 1).id = i;
   }
 }
 
@@ -77,52 +66,77 @@ void printTasksList() {
   }
 }
 
+int? getUserInput(String prompt) {
+  while (true) {
+    try {
+      // Get user input as a string
+      stdout.write("$prompt ");
+      String userInput = stdin.readLineSync()!;
+
+      // Convert the input to an integer
+      int number = int.parse(userInput);
+
+      // If conversion is successful, return the number
+      return number;
+    } catch (e) {
+      // Handle the exception (error) and prompt the user again
+      print("Invalid input. Please enter a valid integer.");
+    }
+  }
+}
+
+int getIndex(Set<TaskListApp> set, int element) {
+  for (int i = 0; i < set.length; i++) {
+    if (TaskListApp.tasks.elementAt(i).id == element) {
+      return i;
+    }
+  }
+  return -1; // Element not found
+}
+
 void main(List<String> args) {
   TaskListApp task1 = TaskListApp('Buy groceries', 'Buy milk, eggs, and bread');
   TaskListApp task2 =
       TaskListApp('Read a book', 'Read "The Catcher in the Rye"');
   int c = 0;
-  try {
-    do {
-      printMenu();
-      stdout.write('Enter your choice: ');
-      int? choice = int.parse(stdin.readLineSync()!);
-      c = choice;
-      switch (c) {
-        case 1:
-          print('\t__ Adding __\n');
-          addTask();
-          break;
-        case 2:
-          print('\t__ Editing __\n');
-          stdout.write('Enter task number: ');
-          int? no = int.parse(stdin.readLineSync()!);
-          editTask(no);
-          break;
-        case 3:
-          print('\t__ Deleting __\n');
-          stdout.write('Enter task number: ');
-          int? no = int.parse(stdin.readLineSync()!);
+  do {
+    printMenu();
+    int? choice = getUserInput("Enter your choice:");
+    c = choice!;
+    switch (c) {
+      case 1:
+        print('\t__ Adding __\n');
+        addTask();
+        break;
+      case 2:
+        print('\t__ Editing __\n');
+        int? no = getUserInput("Enter task number:");
+        editTask(no!);
+        break;
+      case 3:
+        print('\t__ Deleting __\n');
+        int? no = getUserInput("Enter task number:");
+        int index = getIndex(TaskListApp.tasks, no!);
+        if (index != -1) {
           deleteTask(no);
-          break;
-        case 4:
-          print('\t__ Mark as Completed __\n');
-          stdout.write('Enter task number: ');
-          int? no = int.parse(stdin.readLineSync()!);
-          markCompleted(no);
-          break;
-        case 5:
-          print('\t__ Tasks List __\n');
-          printTasksList();
-          break;
-        case 6:
-          print('\t__ Exiting __\n\t__THANK YOU__\n');
-          break;
-        default:
-          print('Enter a valid choice!\n');
-      }
-    } while (c != 6);
-  } catch (e) {
-    print('An error occurred: input must be an integer!');
-  }
+        } else {
+          print('Task dose not exist!\n');
+        }
+        break;
+      case 4:
+        print('\t__ Mark as Completed __\n');
+        int? no = getUserInput("Enter task number:");
+        markCompleted(no!);
+        break;
+      case 5:
+        print('\t__ Tasks List __\n');
+        printTasksList();
+        break;
+      case 6:
+        print('\t__ Exiting __\n\t__THANK YOU__\n');
+        break;
+      default:
+        print('Enter a valid choice!\n');
+    }
+  } while (c != 6);
 }
