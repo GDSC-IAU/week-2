@@ -1,0 +1,1 @@
+deleteTask(no);
